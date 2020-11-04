@@ -1,0 +1,503 @@
+-- phpMyAdmin SQL Dump
+-- version 4.8.5
+-- https://www.phpmyadmin.net/
+--
+-- Servidor: 127.0.0.1
+-- Tiempo de generación: 04-11-2020 a las 22:28:04
+-- Versión del servidor: 10.1.38-MariaDB
+-- Versión de PHP: 7.3.2
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
+START TRANSACTION;
+SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
+
+--
+-- Base de datos: `netflix`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `capitulos`
+--
+
+CREATE TABLE `capitulos` (
+  `id_capitulos` int(11) NOT NULL,
+  `nombre_capitulos` varchar(85) NOT NULL,
+  `num_capitulos` tinyint(4) NOT NULL,
+  `duracion` time NOT NULL,
+  `Fk_id_temporadas` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `capitulos_idioma`
+--
+
+CREATE TABLE `capitulos_idioma` (
+  `Fk_id_capitulos` int(11) NOT NULL,
+  `Fk_id_idioma` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `categoria`
+--
+
+CREATE TABLE `categoria` (
+  `id_cate` int(11) NOT NULL,
+  `nom_cate` varchar(75) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `categoria_peliculas`
+--
+
+CREATE TABLE `categoria_peliculas` (
+  `Fk_id_peliculas` int(11) NOT NULL,
+  `Fk_id_cate` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `categoria_serie`
+--
+
+CREATE TABLE `categoria_serie` (
+  `Fk_id_cate` int(11) NOT NULL,
+  `Fk_id_series` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `factura`
+--
+
+CREATE TABLE `factura` (
+  `id_factura` int(11) DEFAULT NULL,
+  `fecha` date DEFAULT NULL,
+  `hora` time DEFAULT NULL,
+  `Fk_numero_documento` varchar(15) NOT NULL,
+  `Fk_id_docuento` varchar(15) NOT NULL,
+  `Fk_tipo_pago` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `idioma`
+--
+
+CREATE TABLE `idioma` (
+  `id_idioma` int(11) NOT NULL,
+  `nombre_idioma` varchar(12) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `peliculas`
+--
+
+CREATE TABLE `peliculas` (
+  `id_peliculas` int(11) NOT NULL,
+  `nombre_peliculas` varchar(100) DEFAULT NULL,
+  `duracion` time DEFAULT NULL,
+  `año` year(4) DEFAULT NULL,
+  `sinopsis` text,
+  `estado` tinyint(4) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `peliculas_idioma`
+--
+
+CREATE TABLE `peliculas_idioma` (
+  `Fk_id_peliculas` int(11) NOT NULL,
+  `Fk_id_idioma` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `peliculas_perfil`
+--
+
+CREATE TABLE `peliculas_perfil` (
+  `Fk_id_peliculas` int(11) NOT NULL,
+  `Fk_id_perfil` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `perfil`
+--
+
+CREATE TABLE `perfil` (
+  `id_perfil` int(11) NOT NULL,
+  `nombre_perfil` varchar(15) NOT NULL,
+  `avatar` blob NOT NULL,
+  `Fk_numero_documento` varchar(15) NOT NULL,
+  `Fk_id_docuento` varchar(15) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `plan`
+--
+
+CREATE TABLE `plan` (
+  `id_plan` int(11) NOT NULL,
+  `nombre_plan` varchar(25) NOT NULL,
+  `costo` int(11) NOT NULL,
+  `caracteristicas_plan` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `rol`
+--
+
+CREATE TABLE `rol` (
+  `id_rol` int(11) NOT NULL COMMENT 'identificacion del rol',
+  `nombre_rol` varchar(25) NOT NULL COMMENT 'nombre del rol'
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `serie`
+--
+
+CREATE TABLE `serie` (
+  `id_series` int(11) NOT NULL,
+  `nombre_serie` varchar(100) NOT NULL,
+  `numero_temporadas` tinyint(4) NOT NULL,
+  `año` year(4) NOT NULL,
+  `sinopsis` text NOT NULL,
+  `calificacion` float NOT NULL,
+  `estado` tinyint(4) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `serie_perfil`
+--
+
+CREATE TABLE `serie_perfil` (
+  `Fk_id_series` int(11) NOT NULL,
+  `Fk_id_perfil` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `temporadas`
+--
+
+CREATE TABLE `temporadas` (
+  `id_temporadas` int(11) NOT NULL,
+  `num_temporadas` tinyint(4) NOT NULL,
+  `Fk_id_series` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `tipo_de_pago`
+--
+
+CREATE TABLE `tipo_de_pago` (
+  `id_tipo_pago` int(11) NOT NULL,
+  `nombre_pago` varchar(20) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `tipo_documento`
+--
+
+CREATE TABLE `tipo_documento` (
+  `id_documento` varchar(15) NOT NULL COMMENT 'numero de documento',
+  `siglas` varchar(5) NOT NULL COMMENT 'siglas del documento',
+  `nombre_tipo_documento` varchar(30) NOT NULL COMMENT 'nombre del documento'
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `usuario`
+--
+
+CREATE TABLE `usuario` (
+  `numero_documento` varchar(15) NOT NULL,
+  `primer_nombre` varchar(15) DEFAULT NULL,
+  `segundo_nombre` varchar(15) NOT NULL,
+  `primer_apellido` varchar(15) NOT NULL,
+  `segundo_apellido` varchar(15) NOT NULL,
+  `email` varchar(100) NOT NULL,
+  `contraseña` varchar(25) NOT NULL,
+  `Fk_id_documento` varchar(15) NOT NULL,
+  `Fk_id_rol` int(11) NOT NULL,
+  `Fk_id_plan` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Índices para tablas volcadas
+--
+
+--
+-- Indices de la tabla `capitulos`
+--
+ALTER TABLE `capitulos`
+  ADD PRIMARY KEY (`id_capitulos`),
+  ADD KEY `Fk_id_temporadas` (`Fk_id_temporadas`),
+  ADD KEY `Fk_id_temporadas_2` (`Fk_id_temporadas`);
+
+--
+-- Indices de la tabla `capitulos_idioma`
+--
+ALTER TABLE `capitulos_idioma`
+  ADD KEY `Fk_id_capitulos` (`Fk_id_capitulos`),
+  ADD KEY `Fk_id_idioma` (`Fk_id_idioma`),
+  ADD KEY `Fk_id_capitulos_2` (`Fk_id_capitulos`),
+  ADD KEY `Fk_id_idioma_2` (`Fk_id_idioma`);
+
+--
+-- Indices de la tabla `categoria`
+--
+ALTER TABLE `categoria`
+  ADD PRIMARY KEY (`id_cate`);
+
+--
+-- Indices de la tabla `categoria_peliculas`
+--
+ALTER TABLE `categoria_peliculas`
+  ADD KEY `Fk_id_peliculas` (`Fk_id_peliculas`),
+  ADD KEY `Fk_id_cate` (`Fk_id_cate`);
+
+--
+-- Indices de la tabla `categoria_serie`
+--
+ALTER TABLE `categoria_serie`
+  ADD KEY `Fk_id_cate` (`Fk_id_cate`),
+  ADD KEY `Fk_id_series` (`Fk_id_series`);
+
+--
+-- Indices de la tabla `factura`
+--
+ALTER TABLE `factura`
+  ADD KEY `Fk_numero_documento` (`Fk_numero_documento`),
+  ADD KEY `Fk_id_docuento` (`Fk_id_docuento`),
+  ADD KEY `Fk_tipo_pago` (`Fk_tipo_pago`);
+
+--
+-- Indices de la tabla `idioma`
+--
+ALTER TABLE `idioma`
+  ADD PRIMARY KEY (`id_idioma`);
+
+--
+-- Indices de la tabla `peliculas`
+--
+ALTER TABLE `peliculas`
+  ADD PRIMARY KEY (`id_peliculas`);
+
+--
+-- Indices de la tabla `peliculas_idioma`
+--
+ALTER TABLE `peliculas_idioma`
+  ADD KEY `Fk_id_peliculas` (`Fk_id_peliculas`),
+  ADD KEY `Fk_id_idioma` (`Fk_id_idioma`);
+
+--
+-- Indices de la tabla `peliculas_perfil`
+--
+ALTER TABLE `peliculas_perfil`
+  ADD KEY `Fk_id_peliculas` (`Fk_id_peliculas`),
+  ADD KEY `Fk_id_perfil` (`Fk_id_perfil`);
+
+--
+-- Indices de la tabla `perfil`
+--
+ALTER TABLE `perfil`
+  ADD PRIMARY KEY (`id_perfil`),
+  ADD KEY `Fk_numero_documento` (`Fk_numero_documento`),
+  ADD KEY `Fk_id_docuento` (`Fk_id_docuento`);
+
+--
+-- Indices de la tabla `plan`
+--
+ALTER TABLE `plan`
+  ADD PRIMARY KEY (`id_plan`);
+
+--
+-- Indices de la tabla `rol`
+--
+ALTER TABLE `rol`
+  ADD PRIMARY KEY (`id_rol`);
+
+--
+-- Indices de la tabla `serie`
+--
+ALTER TABLE `serie`
+  ADD PRIMARY KEY (`id_series`);
+
+--
+-- Indices de la tabla `serie_perfil`
+--
+ALTER TABLE `serie_perfil`
+  ADD KEY `Fk_id_series` (`Fk_id_series`),
+  ADD KEY `Fk_id_perfil` (`Fk_id_perfil`);
+
+--
+-- Indices de la tabla `temporadas`
+--
+ALTER TABLE `temporadas`
+  ADD PRIMARY KEY (`id_temporadas`),
+  ADD KEY `Fk_id_series` (`Fk_id_series`);
+
+--
+-- Indices de la tabla `tipo_de_pago`
+--
+ALTER TABLE `tipo_de_pago`
+  ADD PRIMARY KEY (`id_tipo_pago`);
+
+--
+-- Indices de la tabla `tipo_documento`
+--
+ALTER TABLE `tipo_documento`
+  ADD PRIMARY KEY (`id_documento`);
+
+--
+-- Indices de la tabla `usuario`
+--
+ALTER TABLE `usuario`
+  ADD PRIMARY KEY (`numero_documento`),
+  ADD KEY `Fk_id_documento` (`Fk_id_documento`),
+  ADD KEY `Fk_id_rol` (`Fk_id_rol`),
+  ADD KEY `Fk_id_plan` (`Fk_id_plan`);
+
+--
+-- Restricciones para tablas volcadas
+--
+
+--
+-- Filtros para la tabla `capitulos`
+--
+ALTER TABLE `capitulos`
+  ADD CONSTRAINT `capitulos_ibfk_1` FOREIGN KEY (`id_capitulos`) REFERENCES `capitulos_idioma` (`Fk_id_capitulos`),
+  ADD CONSTRAINT `capitulos_ibfk_2` FOREIGN KEY (`Fk_id_temporadas`) REFERENCES `temporadas` (`id_temporadas`);
+
+--
+-- Filtros para la tabla `capitulos_idioma`
+--
+ALTER TABLE `capitulos_idioma`
+  ADD CONSTRAINT `capitulos_idioma_ibfk_1` FOREIGN KEY (`Fk_id_idioma`) REFERENCES `idioma` (`id_idioma`);
+
+--
+-- Filtros para la tabla `categoria`
+--
+ALTER TABLE `categoria`
+  ADD CONSTRAINT `categoria_ibfk_1` FOREIGN KEY (`id_cate`) REFERENCES `categoria_peliculas` (`Fk_id_cate`);
+
+--
+-- Filtros para la tabla `categoria_serie`
+--
+ALTER TABLE `categoria_serie`
+  ADD CONSTRAINT `categoria_serie_ibfk_1` FOREIGN KEY (`Fk_id_cate`) REFERENCES `categoria` (`id_cate`);
+
+--
+-- Filtros para la tabla `factura`
+--
+ALTER TABLE `factura`
+  ADD CONSTRAINT `factura_ibfk_1` FOREIGN KEY (`Fk_numero_documento`) REFERENCES `usuario` (`numero_documento`);
+
+--
+-- Filtros para la tabla `idioma`
+--
+ALTER TABLE `idioma`
+  ADD CONSTRAINT `idioma_ibfk_1` FOREIGN KEY (`id_idioma`) REFERENCES `peliculas_idioma` (`Fk_id_idioma`);
+
+--
+-- Filtros para la tabla `peliculas`
+--
+ALTER TABLE `peliculas`
+  ADD CONSTRAINT `peliculas_ibfk_1` FOREIGN KEY (`id_peliculas`) REFERENCES `categoria_peliculas` (`Fk_id_peliculas`);
+
+--
+-- Filtros para la tabla `peliculas_idioma`
+--
+ALTER TABLE `peliculas_idioma`
+  ADD CONSTRAINT `peliculas_idioma_ibfk_1` FOREIGN KEY (`Fk_id_peliculas`) REFERENCES `peliculas` (`id_peliculas`);
+
+--
+-- Filtros para la tabla `peliculas_perfil`
+--
+ALTER TABLE `peliculas_perfil`
+  ADD CONSTRAINT `peliculas_perfil_ibfk_1` FOREIGN KEY (`Fk_id_perfil`) REFERENCES `perfil` (`id_perfil`),
+  ADD CONSTRAINT `peliculas_perfil_ibfk_2` FOREIGN KEY (`Fk_id_peliculas`) REFERENCES `peliculas` (`id_peliculas`);
+
+--
+-- Filtros para la tabla `perfil`
+--
+ALTER TABLE `perfil`
+  ADD CONSTRAINT `perfil_ibfk_1` FOREIGN KEY (`Fk_numero_documento`) REFERENCES `usuario` (`numero_documento`),
+  ADD CONSTRAINT `perfil_ibfk_2` FOREIGN KEY (`id_perfil`) REFERENCES `serie_perfil` (`Fk_id_perfil`);
+
+--
+-- Filtros para la tabla `serie`
+--
+ALTER TABLE `serie`
+  ADD CONSTRAINT `serie_ibfk_1` FOREIGN KEY (`id_series`) REFERENCES `categoria_serie` (`Fk_id_series`);
+
+--
+-- Filtros para la tabla `serie_perfil`
+--
+ALTER TABLE `serie_perfil`
+  ADD CONSTRAINT `serie_perfil_ibfk_1` FOREIGN KEY (`Fk_id_series`) REFERENCES `serie` (`id_series`);
+
+--
+-- Filtros para la tabla `temporadas`
+--
+ALTER TABLE `temporadas`
+  ADD CONSTRAINT `temporadas_ibfk_1` FOREIGN KEY (`Fk_id_series`) REFERENCES `serie` (`id_series`);
+
+--
+-- Filtros para la tabla `tipo_de_pago`
+--
+ALTER TABLE `tipo_de_pago`
+  ADD CONSTRAINT `tipo_de_pago_ibfk_1` FOREIGN KEY (`id_tipo_pago`) REFERENCES `factura` (`Fk_tipo_pago`);
+
+--
+-- Filtros para la tabla `usuario`
+--
+ALTER TABLE `usuario`
+  ADD CONSTRAINT `usuario_ibfk_1` FOREIGN KEY (`Fk_id_documento`) REFERENCES `tipo_documento` (`id_documento`),
+  ADD CONSTRAINT `usuario_ibfk_2` FOREIGN KEY (`Fk_id_rol`) REFERENCES `rol` (`id_rol`),
+  ADD CONSTRAINT `usuario_ibfk_3` FOREIGN KEY (`Fk_id_plan`) REFERENCES `plan` (`id_plan`);
+COMMIT;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
